@@ -10,8 +10,8 @@ import (
 
 	"fmt"
 
-	bpf "github.com/khulnasoft-labs/libbpfgo"
-	"github.com/khulnasoft-labs/libbpfgo/helpers"
+	bpf "github.com/khulnasoft-lab/libbpfgo"
+	"github.com/khulnasoft-lab/libbpfgo/helpers"
 )
 
 func main() {

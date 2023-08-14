@@ -1,4 +1,4 @@
-module github.com/khulnasoft-labs/libbpfgo/helpers
+module github.com/khulnasoft-lab/libbpfgo/helpers
 
 go 1.18
 

@@ -8,7 +8,7 @@ import (
 	"os"
 	"unsafe"
 
-	bpf "github.com/khulnasoft-labs/libbpfgo"
+	bpf "github.com/khulnasoft-lab/libbpfgo"
 )
 
 // CreateMap uses `bpf_map_create()`, a 'low-level' API in libbpf

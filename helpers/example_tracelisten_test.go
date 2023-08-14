@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/khulnasoft-labs/libbpfgo/helpers"
+	"github.com/khulnasoft-lab/libbpfgo/helpers"
 )
 
 func ExampleTracePipeListen_usage() {
