@@ -8,7 +8,7 @@ import (
 	"os"
 	"unsafe"
 
-	bpf "github.com/khulnasoft-labs/libbpfgo"
+	bpf "github.com/khulnasoft-lab/libbpfgo"
 )
 
 // CreateMap uses `bpf_map_create()`, a 'low-level' API in libbpf
@@ -37,8 +37,6 @@ func main() {
 	defer bpfModule.Close()
 
 	bpfModule.BPFLoadObject()
-	opts := bpf.BPFMapCreateOpts{}
-	opts.Size = uint64(unsafe.Sizeof(opts))
 
 	m, err := bpf.CreateMap(bpf.MapTypeHash, "foobar", 4, 4, 420, nil)
 	if err != nil {

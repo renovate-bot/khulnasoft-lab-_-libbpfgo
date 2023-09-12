@@ -4,12 +4,14 @@ import "C"
 
 import (
 	"os"
+	"runtime"
+	"time"
 
 	"encoding/binary"
 	"fmt"
 	"syscall"
 
-	bpf "github.com/khulnasoft-labs/libbpfgo"
+	bpf "github.com/khulnasoft-lab/libbpfgo"
 )
 
 func resizeMap(module *bpf.Module, name string, size uint32) error {
@@ -49,7 +51,8 @@ func main() {
 		os.Exit(-1)
 	}
 
-	_, err = prog.AttachKprobe("__x64_sys_mmap")
+	funcName := fmt.Sprintf("__%s_sys_mmap", ksymArch())
+	_, err = prog.AttachKprobe(funcName)
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(-1)
@@ -65,25 +68,31 @@ func main() {
 
 	pb.Poll(300)
 
-	numberOfEventsReceived := 0
+	stop := make(chan struct{})
 
 	go func() {
 		for {
-			syscall.Mmap(999, 999, 999, 1, 1)
+			select {
+			case <-stop:
+				return
+			case b := <-eventsChannel:
+				if binary.LittleEndian.Uint32(b) != 2021 {
+					fmt.Fprintf(os.Stderr, "invalid data retrieved\n")
+					os.Exit(-1)
+				}
+			}
 		}
 	}()
-recvLoop:
-	for {
-		b := <-eventsChannel
-		if binary.LittleEndian.Uint32(b) != 2021 {
-			fmt.Fprintf(os.Stderr, "invalid data retrieved\n")
-			os.Exit(-1)
-		}
-		numberOfEventsReceived++
-		if numberOfEventsReceived > 5 {
-			break recvLoop
-		}
+
+	// give some time for the upper goroutine to start
+	time.Sleep(100 * time.Millisecond)
+
+	for sent := 0; sent < 5; sent++ {
+		syscall.Mmap(999, 999, 999, 1, 1)
+		time.Sleep(100 * time.Millisecond)
 	}
+
+	close(stop)
 
 	// Test that it won't cause a panic or block if Stop or Close called multiple times
 	pb.Stop()
@@ -91,4 +100,15 @@ recvLoop:
 	pb.Close()
 	pb.Close()
 	pb.Stop()
+}
+
+func ksymArch() string {
+	switch runtime.GOARCH {
+	case "amd64":
+		return "x64"
+	case "arm64":
+		return "arm64"
+	default:
+		panic("unsupported architecture")
+	}
 }

@@ -1,4 +1,4 @@
-module github.com/khulnasoft-labs/libbpfgo
+module github.com/khulnasoft-lab/libbpfgo
 
 go 1.18
 

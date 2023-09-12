@@ -8,7 +8,7 @@ import (
 	"os"
 	"os/exec"
 
-	bpf "github.com/khulnasoft-labs/libbpfgo"
+	bpf "github.com/khulnasoft-lab/libbpfgo"
 )
 
 const (

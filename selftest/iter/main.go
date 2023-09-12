@@ -11,7 +11,7 @@ import (
 	"strings"
 	"syscall"
 
-	bpf "github.com/khulnasoft-labs/libbpfgo"
+	bpf "github.com/khulnasoft-lab/libbpfgo"
 )
 
 func exitWithErr(err error) {
@@ -51,7 +51,7 @@ func main() {
 	thisPid := syscall.Getpid()
 	pids := make(map[int]*os.Process, 0)
 	for i := 0; i < totalExecs; i++ {
-		cmd := exec.Command("ping", "-w", "15", "8.8.8.8")
+		cmd := exec.Command("ping", "-w", "10", "8.8.8.8")
 		err := cmd.Start()
 		if err != nil {
 			exitWithErr(err)

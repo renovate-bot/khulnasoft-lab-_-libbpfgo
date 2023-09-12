@@ -16,7 +16,7 @@ import (
 	"syscall"
 	"time"
 
-	bpf "github.com/khulnasoft-labs/libbpfgo"
+	bpf "github.com/khulnasoft-lab/libbpfgo"
 )
 
 var reCgroup2Mount = regexp.MustCompile(`(?m)^cgroup2\s(/\S+)\scgroup2\s`)

@@ -5,7 +5,7 @@ import (
 	"os/exec"
 	"strings"
 
-	"github.com/khulnasoft-labs/libbpfgo"
+	"github.com/khulnasoft-lab/libbpfgo"
 )
 
 func main() {

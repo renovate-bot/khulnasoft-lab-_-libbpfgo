@@ -9,7 +9,7 @@ import (
 	"encoding/binary"
 	"fmt"
 
-	bpf "github.com/khulnasoft-labs/libbpfgo"
+	bpf "github.com/khulnasoft-lab/libbpfgo"
 )
 
 func main() {
